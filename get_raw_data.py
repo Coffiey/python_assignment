@@ -3,13 +3,11 @@ from datetime import datetime, timedelta
 
 symbol = "IBM"
 apiKey="RE84XSIRXVWO1NH0"
-# replace the "demo" apikey below with your own key from https://www.alphavantage.co/support/#api-key
 url = f'https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=AAPL&outputsize=compact&apikey={apiKey}'
 r = requests.get(url)
 data = r.json()
 day_data = data['Time Series (Daily)']
-current_date = datetime.now().date()
-two_weeks_ago = current_date - timedelta(weeks=2)
+two_weeks_ago = datetime.now().date() - timedelta(weeks=2)
 
 data_obj = []
 if r.status_code == 200:
@@ -24,8 +22,4 @@ if r.status_code == 200:
                 "volume": day_data[day_obj]['6. volume'],
             })
 print(data_obj)
-
-
-
-# print(data['Time Series (Daily)'])
 
