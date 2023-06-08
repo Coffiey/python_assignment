@@ -6,4 +6,4 @@ ENV FLASK_RUN_HOST=0.0.0.0
 RUN apk add --no-cache gcc musl-dev linux-headers
 RUN pip install -r requirements.txt
 EXPOSE 5000
-CMD flask db init && flask db migrate && flask run
+CMD flask run

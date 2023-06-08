@@ -15,7 +15,7 @@ def get_financial_data(stock_symbol):
     data = response.json()
 
     #formats Daily data and limits size to the last 14 results
-    financial_data = data['Time Series (Daily)'][:14]
+    financial_data = data['Time Series (Daily)']
     two_weeks_ago = datetime.now().date() - timedelta(weeks=2)
 
     #creates Data-base formatted list
@@ -33,5 +33,4 @@ def get_financial_data(stock_symbol):
                     "close_price": financial_data[day_obj]['4. close'],
                     "volume": financial_data[day_obj]['6. volume'],
                 })
-
     return financial_data_obj

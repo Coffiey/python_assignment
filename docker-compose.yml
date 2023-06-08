@@ -1,4 +1,16 @@
 services:
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: your_user
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: your_database
+    ports:
+      - 5432:5432
+    networks:
+      - mynetwork
+
   web:
     build: .
     ports:
@@ -12,17 +24,8 @@ services:
       - FLASK_DEBUG=true
     networks:
       - mynetwork
-  db:
-    image: postgres:latest
-    restart: always
-    environment:
-      POSTGRES_USER: your_user
-      POSTGRES_PASSWORD: your_password
-      POSTGRES_DB: your_database
-    ports:
-      - 5432:5432
-    networks:
-      - mynetwork
+    depends_on:
+      - db
 
 networks:
   mynetwork:

@@ -2,11 +2,15 @@
 
 ##prerequistes
 
-<ol>
-    <li>Docker</li>
-    <li>postgres</li>
-    <li></li>
-</ol>
+Docker
+
+## Run DockerServer
+
+```
+docker compose --build
+```
+
+Please note I am useing PostgreSQL for the DATABASE and not sqlite3, Becuase it is a postgreSQL database inside Docker there is no need to
 
 ## Task1
 
