@@ -4,13 +4,19 @@
 
 Docker
 
-## Run DockerServer
+## Run Docker Container
+
+1. create a .env file for your api key
+
+2. run the docker command
 
 ```
 docker compose --build
 ```
 
-Please note I am useing PostgreSQL for the DATABASE and not sqlite3, Becuase it is a postgreSQL database inside Docker there is no need to
+Please note I am useing PostgreSQL for the DATABASE and not sqlite3, Becuase it is a postgreSQL database inside Docker Container there is no need to install PostgreSQL on your local device or create a user and password, this is all done by the App.
+However: every so often, when creating a new image on init start up, the flask app can initalise and run before the postgreSQL Database is fully configured.
+This is a bug under Investigation however due to time restraints and it only happining on the intial load I recomend simply running the comand ` docker compose --build` twice if a connection error is observed
 
 ## Task1
 
