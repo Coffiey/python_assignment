@@ -5,5 +5,24 @@ services:
       - "5000:5000"
     volumes:
       - .:/code
+    env_file:
+      - .env
     environment:
-      FLASK_DEBUG: "true"
+      - FLASK_ENV=development
+      - FLASK_DEBUG=true
+    networks:
+      - mynetwork
+  db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_USER: your_user
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: your_database
+    ports:
+      - 5432:5432
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:

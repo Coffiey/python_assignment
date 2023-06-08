@@ -1,17 +1,20 @@
-# Take-Home Assignment
+# Finance API
 
-The goal of this take-home assignment is to evaluate your abilities to use API, data processing and transformation, SQL, and implement a new API service in Python.
+##prerequistes
 
-You should first fork this repository, and then send us the code or the url of your forked repository via email.
-
-**Please do not submit any pull requests to this repository.**
-
-You need to perform the following **Two** tasks:
+<ol>
+    <li>Docker</li>
+    <li>postgres</li>
+    <li></li>
+</ol>
 
 ## Task1
+
 ### Problem Statement:
-1. Retrieve the financial data of Two given stocks (IBM, Apple Inc.)for the most recently two weeks. Please using an free API provider named [AlphaVantage](https://www.alphavantage.co/documentation/) 
+
+1. Retrieve the financial data of Two given stocks (IBM, Apple Inc.)for the most recently two weeks. Please using an free API provider named [AlphaVantage](https://www.alphavantage.co/documentation/)
 2. Process the raw API data response, a sample output after process should be like:
+
 ```
 {
     "symbol": "IBM",
@@ -35,32 +38,35 @@ You need to perform the following **Two** tasks:
     "volume": "42399013"
 },
 ...
-``` 
-3. Insert the records above into a table named `financial_data` in your local database, column name should be same as the processed data from step 2 above (symbol, date, open_price, close_price, volume) 
+```
 
+3. Insert the records above into a table named `financial_data` in your local database, column name should be same as the processed data from step 2 above (symbol, date, open_price, close_price, volume)
 
 ## Task2
+
 ### Problem Statement:
+
 1. Implement an Get financial_data API to retrieve records from `financial_data` table, please note that:
-    - the endpoint should accept following parameters: start_date, end_date, symbol, all parameters are optional
-    - the endpoint should support pagination with parameter: limit and page, if no parameters are given, default limit for one page is 5
-    - the endpoint should return an result with three properties:
-        - data: an array includes actual results
-        - pagination: handle pagination with four properties
-            
-            - count: count of all records without panigation
-            - page: current page index
-            - limit: limit of records can be retrieved for single page
-            - pages: total number of pages
-        - info: includes any error info if applies
-    
+   - the endpoint should accept following parameters: start_date, end_date, symbol, all parameters are optional
+   - the endpoint should support pagination with parameter: limit and page, if no parameters are given, default limit for one page is 5
+   - the endpoint should return an result with three properties:
+     - data: an array includes actual results
+     - pagination: handle pagination with four properties
+       - count: count of all records without panigation
+       - page: current page index
+       - limit: limit of records can be retrieved for single page
+       - pages: total number of pages
+     - info: includes any error info if applies
 
 Sample Request:
+
 ```bash
 curl -X GET 'http://localhost:5000/api/financial_data?start_date=2023-01-01&end_date=2023-01-14&symbol=IBM&limit=3&page=2'
 
 ```
+
 Sample Response:
+
 ```
 {
     "data": [
@@ -98,21 +104,25 @@ Sample Response:
 ```
 
 2. Implement an Get statistics API to perform the following calculations on the data in given period of time:
-    - Calculate the average daily open price for the period
-    - Calculate the average daily closing price for the period
-    - Calculate the average daily volume for the period
 
-    - the endpoint should accept following parameters: start_date, end_date, symbols, all parameters are required
-    - the endpoint should return an result with two properties:
-        - data: calculated statistic results
-        - info: includes any error info if applies
+   - Calculate the average daily open price for the period
+   - Calculate the average daily closing price for the period
+   - Calculate the average daily volume for the period
+
+   - the endpoint should accept following parameters: start_date, end_date, symbols, all parameters are required
+   - the endpoint should return an result with two properties:
+     - data: calculated statistic results
+     - info: includes any error info if applies
 
 Sample request:
+
 ```bash
 curl -X GET http://localhost:5000/api/statistics?start_date=2023-01-01&end_date=2023-01-31&symbol=IBM
 
 ```
+
 Sample response:
+
 ```
 {
     "data": {
@@ -129,7 +139,9 @@ Sample response:
 ```
 
 ## What you should deliver:
+
 Directory structure:
+
 ```
 project-name/
 ├── model.py
@@ -145,62 +157,64 @@ project-name/
 
 1. A `get_raw_data.py` file in root folder
 
-    Action: 
-    
-    Run 
-    ```bash
-    python get_raw_data.py
-    ```
+   Action:
 
-    Expectation: 
-    
-    1. Financial data will be retrieved from API and processed,then insert all processed records into table `financial_data` in local db
-    2. Duplicated records should be avoided when executing get_raw_data multiple times, consider implementing your own logic to perform upsert operation if the database you select does not have native support for such operation.
+   Run
+
+   ```bash
+   python get_raw_data.py
+   ```
+
+   Expectation:
+
+   1. Financial data will be retrieved from API and processed,then insert all processed records into table `financial_data` in local db
+   2. Duplicated records should be avoided when executing get_raw_data multiple times, consider implementing your own logic to perform upsert operation if the database you select does not have native support for such operation.
 
 2. A `schema.sql` file in root folder
-    
-    Define schema for financial_data table, if you prefer to use an ORM library, just **ignore** this deliver item and jump to item3 below.
 
-    Action: Run schema definition in local db
+   Define schema for financial_data table, if you prefer to use an ORM library, just **ignore** this deliver item and jump to item3 below.
 
-    Expectation: A new table named `financial_data` should be created if not exists in db
+   Action: Run schema definition in local db
 
-3. (Optional) A `model.py` file: 
-    
-    If you perfer to use a ORM library instead of DDL, please include your model definition in `model.py`, and describe how to perform migration in README.md file
+   Expectation: A new table named `financial_data` should be created if not exists in db
+
+3. (Optional) A `model.py` file:
+
+   If you perfer to use a ORM library instead of DDL, please include your model definition in `model.py`, and describe how to perform migration in README.md file
 
 4. A `Dockerfile` file in root folder
 
-    Build up your local API service
+   Build up your local API service
 
 5. A `docker-compose.yml` file in root folder
 
-    Two services should be defined in docker-compose.yml: Database and your API
+   Two services should be defined in docker-compose.yml: Database and your API
 
-    Action:
+   Action:
 
-    ```bash
-    docker-compose up
-    ```
+   ```bash
+   docker-compose up
+   ```
 
-    Expectation:
-    Both database and your API service is up and running in local development environment
+   Expectation:
+   Both database and your API service is up and running in local development environment
 
 6. A `financial` sub-folder:
 
-    Put all API implementation related codes in here
+   Put all API implementation related codes in here
 
-7. `README.md`: 
+7. `README.md`:
 
-    You should include:
-    - A brief project description
-    - Tech stack you are using in this project
-    - How to run your code in local environment
-    - Provide a description of how to maintain the API key to retrieve financial data from AlphaVantage in both local development and production environment.
+   You should include:
+
+   - A brief project description
+   - Tech stack you are using in this project
+   - How to run your code in local environment
+   - Provide a description of how to maintain the API key to retrieve financial data from AlphaVantage in both local development and production environment.
 
 8. A `requirements.txt` file:
 
-    It should contain your dependency libraries.
+   It should contain your dependency libraries.
 
 ## Requirements:
 

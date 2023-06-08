@@ -1,3 +1,6 @@
 flask
-flask_sqlalchemy
-psycopg
+flask-sqlalchemy
+psycopg2-binary
+python-dotenv
+requests
+flask-migrate
