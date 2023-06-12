@@ -8,15 +8,13 @@ Run Docker Desktop
 <ul>
     <li>"/" route directory: renders HTML home page</li>
     <ul>
-        <li>api/financial_data <br/>params(optional):
-            <ul>
+        <li>api/financial_data <br/>    params(optional):<ul>
                 <li>start_date</li>
                 <li>end_date</li>
                 <li>symbol</li>
             </ul>
         </li>
-        <li>api/statistics <br/>params(optional):
-            <ul>
+        <li>api/statistics <br/>    params(optional):<ul>
                 <li>start_date</li>
                 <li>end_date</li>
                 <li>symbol</li>
