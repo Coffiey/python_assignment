@@ -23,11 +23,141 @@
   </head>
   <body>
     <h1>Please select From here</h1>
-    <button>Finacial Data</button>
-    <button>Statistics</button>
+    <button onclick="getFinancialData()">Finacial Data</button>
+    <button onclick="getStatistics()">Statistics</button>
     <p>Filters</p>
-    <p>Stocks Options</p>
-    <button>Interantional Business Machine</button>
-    <button>Apple.inc</button>
+    <div>
+      <p>
+        Start date:
+        <input
+          type="date"
+          onchange="setStartDate(event)"
+        />
+      </p>
+      <p>
+        End date:
+        <input
+          type="date"
+          onchange="setEndDate(event)"
+        />
+      </p>
+    </div>
+    <div>
+      <p>
+        Stocks Options:
+        <button onclick="clearSymbol('')">all</button>
+        <button onclick="setSymbol('IBM')">
+          Interantional Business Machine
+        </button>
+        <button onclick="setSymbol('AAPL')">Apple.inc</button>
+      </p>
+    </div>
+    <div id="table"></div>
+    <script>
+      let symbol = "";
+      let startDate = "";
+      let endDate = "";
+      let page = "";
+      let limit = "";
+
+      const getFinancialData = async () => {
+        const div = document.getElementById("table");
+        const div2 = document.getElementById("table2");
+        if (div2) {
+          div2.parentNode.removeChild(div2);
+        }
+        const response = await fetch(
+          `api/financial_data?${startDate}${endDate}${symbol}`
+        );
+        const data = await response.json();
+        console.log(data);
+        const table = document.createElement("table");
+        const headerRow = table.insertRow();
+        const symbolHeaderCell = headerRow.insertCell();
+        symbolHeaderCell.textContent = "Symbol";
+        const dateHeaderCell = headerRow.insertCell();
+        dateHeaderCell.textContent = "Date";
+        const openPriceHeaderCell = headerRow.insertCell();
+        openPriceHeaderCell.textContent = "Opening Price";
+        const closePriceHeaderCell = headerRow.insertCell();
+        closePriceHeaderCell.textContent = "Closing Price";
+        const volumeHeaderCell = headerRow.insertCell();
+        volumeHeaderCell.textContent = "Volume";
+        data.data.forEach((element) => {
+          const row = table.insertRow();
+          const symbolCell = row.insertCell();
+          symbolCell.textContent = element.symbol;
+          const dateCell = row.insertCell();
+          dateCell.textContent = element.date;
+          const openPriceCell = row.insertCell();
+          openPriceCell.textContent = element.open_price;
+          const closePriceCell = row.insertCell();
+          closePriceCell.textContent = element.close_price;
+          const volumeCell = row.insertCell();
+          volumeCell.textContent = element.volume;
+        });
+        const newDiv = document.createElement("div");
+        newDiv.id = "table2";
+        newDiv.appendChild(table);
+        div.append(newDiv);
+      };
+
+      const setStartDate = (e) => {
+        startDate = `&start_date=${e.target.value}`;
+      };
+      const setEndDate = (e) => {
+        startDate = `&end_date=${e.target.value}`;
+        console.log(endDate);
+      };
+
+      const getStatistics = async () => {
+        const div = document.getElementById("table");
+        const div2 = document.getElementById("table2");
+        if (div2) {
+          div2.parentNode.removeChild(div2);
+        }
+        const response = await fetch(
+          `api/statistics?${startDate}${endDate}${symbol}`
+        );
+        const data = await response.json();
+        console.log(data);
+        const table = document.createElement("table");
+        const headerRow = table.insertRow();
+        const symbolHeaderCell = headerRow.insertCell();
+        symbolHeaderCell.textContent = "Symbol";
+        const dateHeaderCell = headerRow.insertCell();
+        dateHeaderCell.textContent = "Date";
+        const averageDailyClosePrice = headerRow.insertCell();
+        averageDailyClosePrice.textContent = "Average close Price";
+        const averageDailyOpenPrice = headerRow.insertCell();
+        averageDailyOpenPrice.textContent = "Average Open Price";
+        const volumeHeaderCell = headerRow.insertCell();
+        volumeHeaderCell.textContent = "Average Volume";
+
+        const row = table.insertRow();
+        const symbolCell = row.insertCell();
+        symbolCell.textContent = data.data.symbol;
+        const dateCell = row.insertCell();
+        dateCell.textContent = data.data.date;
+        const openPriceCell = row.insertCell();
+        openPriceCell.textContent = data.data.average_daily_close_price;
+        const closePriceCell = row.insertCell();
+        closePriceCell.textContent = data.data.average_daily_open_price;
+        const volumeCell = row.insertCell();
+        volumeCell.textContent = data.data.average_daily_volume;
+
+        const newDiv = document.createElement("div");
+        newDiv.id = "table2";
+        newDiv.appendChild(table);
+        div.append(newDiv);
+      };
+
+      const setSymbol = (sym) => {
+        symbol = `&symbol=${sym}`;
+      };
+      const clearSymbol = (sym) => {
+        symbol = sym;
+      };
+    </script>
   </body>
 </html>

@@ -86,8 +86,11 @@ def get_financial_data_page():
 
     start_date = request.args.get('start_date',default='1970-01-01', type=str)
     start_date_obj = datetime.strptime(start_date, "%Y-%m-%d").date()
-    end_date = request.args.get('end_date',  default=(datetime.now().strftime('%Y-%m-%d')), type=str)
+    end_date = request.args.get('end_date', default=(datetime.now().strftime('%Y-%m-%d')), type=str)
     end_date_obj = datetime.strptime(end_date, "%Y-%m-%d").date()
+    symbol = request.args.get('symbol', default="false", type=str)
+    page = request.args.get('page', default=1, type=int)
+    limit = request.args.get('limit', default=5, type=int)
 
     if start_date_obj > end_date_obj:
         error_message = 'Start date cannot be later than the end date.'
@@ -99,13 +102,9 @@ def get_financial_data_page():
             }
         }
         return response
-    
-    symbol = request.args.get('symbol', default=False, type=str)
-    page = request.args.get('page', default=1, type=int)
-    limit = request.args.get('limit', default=5, type=int)
 
     try:
-        if symbol:
+        if symbol != "false":
             pagination = financial_data.query.filter_by(symbol=symbol).paginate(page=page, per_page=limit)
         else:
             pagination = financial_data.query.paginate(page=page, per_page=limit)
