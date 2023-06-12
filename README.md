@@ -7,27 +7,25 @@ Run Docker Desktop
 
 <ul>
     <li>"/" route directory: renders HTML home page</li>
-    <li>/api
-        <ul>
-            <li>/financial_data <br/>params(optional):
-                <ul>
-                    <li>start_date</li>
-                    <li>end_date</li>
-                    <li>symbol</li>
-                </ul>
-            </li>
-            <li>/statistics <br/>params(optional):
-                <ul>
-                    <li>start_date</li>
-                    <li>end_date</li>
-                    <li>symbol</li>
-                </ul>
-            </li>
-            <li>
-            /financial_data :gets all Data from database.
-            </li>
-        </ul>
-    </li>
+    <ul>
+        <li>api/financial_data <br/>params(optional):
+            <ul>
+                <li>start_date</li>
+                <li>end_date</li>
+                <li>symbol</li>
+            </ul>
+        </li>
+        <li>api/statistics <br/>params(optional):
+            <ul>
+                <li>start_date</li>
+                <li>end_date</li>
+                <li>symbol</li>
+            </ul>
+        </li>
+        <li>
+        /financial_data :gets all Data from database.
+        </li>
+    </ul>
 </ul>
 
 ## Run Docker Container
