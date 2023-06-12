@@ -18,21 +18,19 @@ with app.app_context():
     db.init_app(app)
     db.create_all()
 
-
+#redirects /api calles to the api router
 app.register_blueprint(api_bp, url_prefix='/api')
 
 @app.route('/')
 def hello_world():
+    """
+    Updates the database with financial data from AlphaVantage API.
+
+    renders:
+     -html page
+    """
     stock_symbol = ["IBM","AAPL"]
     for stock in stock_symbol:
         answer = get_financial_data(stock)
         save_financial_data(answer)
-        print("completed")
     return render_template('index.html')
-
-
-
-@app.route('/test')
-def test():
-    response = get_all_financial_data()
-    return f"{response}"

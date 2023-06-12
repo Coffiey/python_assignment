@@ -5,7 +5,15 @@ import os
 
 
 def get_financial_data(stock_symbol):
-    #Fetches and processes Raw Data of selected Stock eg..."IBM"
+    """
+    Fetches financial data for a given stock symbol from AlphaVantage API and processes it.
+
+    Args:
+        stock_symbol (str): The stock symbol for which to retrieve the financial data.
+
+    Returns:
+        list: A list of dictionaries containing the processed financial data for the specified stock symbol, ready for Database Intergration.
+    """
     FUNCTION="TIME_SERIES_DAILY_ADJUSTED"
     API_KEY=os.environ.get("API_KEY")
     url = f'https://www.alphavantage.co/query?function={FUNCTION}&symbol={stock_symbol}&outputsize=compact&apikey={API_KEY}'
